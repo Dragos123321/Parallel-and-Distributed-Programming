@@ -9,6 +9,12 @@ pub struct Account {
 
 impl Account {
     pub fn new(iban: String, id: u64, amount: u64, log: String, init_amount: u64) -> Account {
-        Account { iban, id, amount, log, init_amount }
+        Account {
+            iban,
+            id,
+            amount,
+            log,
+            init_amount,
+        }
     }
 }
