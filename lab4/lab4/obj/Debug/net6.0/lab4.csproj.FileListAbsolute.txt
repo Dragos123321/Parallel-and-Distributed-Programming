@@ -1,0 +1,15 @@
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\lab4.csproj.AssemblyReference.cache
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\lab4.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\lab4.AssemblyInfoInputs.cache
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\lab4.AssemblyInfo.cs
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\lab4.csproj.CoreCompileInputs.cache
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\bin\Debug\net6.0\lab4.exe
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\bin\Debug\net6.0\lab4.deps.json
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\bin\Debug\net6.0\lab4.runtimeconfig.json
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\bin\Debug\net6.0\lab4.dll
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\bin\Debug\net6.0\ref\lab4.dll
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\bin\Debug\net6.0\lab4.pdb
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\lab4.dll
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\ref\lab4.dll
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\lab4.pdb
+D:\Dragos\Work\Faculty\Programare paralela\lab4\lab4\obj\Debug\net6.0\lab4.genruntimeconfig.cache
