@@ -10,15 +10,15 @@ namespace lab4
 {
     internal class TasksSolution
     {
-        private static List<string> hosts;
+        private static List<string>? hostnames;
 
         public static void run(List<string> urls)
         {
-            hosts = urls;
+            hostnames = urls;
 
             var tasks = new List<Task>();
 
-            for (int i = 0; i < hosts.Count; i++)
+            for (int i = 0; i < hostnames.Count; i++)
             {
                 tasks.Add(Task.Factory.StartNew(start, i));
             }
@@ -30,7 +30,7 @@ namespace lab4
         {
             int id = (int)objId;
 
-            StartClient(hosts[id], id);
+            StartClient(hostnames![id], id);
         }
 
         public static void StartClient(string host, int id)
@@ -39,28 +39,28 @@ namespace lab4
 
             ConnectWrapper(state).Wait();
 
-            SendWrapper(state, HttpHelper.getRequestString(state.serverHostname, state.endpoint)).Wait();
+            SendWrapper(state, HttpHelper.getRequestString(state.serverHostname!, state.endpoint!)).Wait();
 
             ReceiveWrapper(state).Wait();
 
             state.LogReceive();
 
-            state.clientSocket.Shutdown(SocketShutdown.Both);
+            state.clientSocket!.Shutdown(SocketShutdown.Both);
             state.clientSocket.Close();
         }
 
         private static Task ConnectWrapper(State state)
         {
-            state.clientSocket.BeginConnect(state.remoteEndpoint, ConnectCallback, state);
+            state.clientSocket!.BeginConnect(state.remoteEndpoint!, ConnectCallback, state);
 
             return Task.FromResult(state.connectDone.WaitOne());
         }
 
         private static void ConnectCallback(IAsyncResult ar)
         {
-            var state = (State)ar.AsyncState;
+            var state = (State)ar.AsyncState!;
 
-            state.clientSocket.EndConnect(ar);
+            state.clientSocket!.EndConnect(ar);
             state.LogConnect();
             state.connectDone.Set();
         }
@@ -69,16 +69,15 @@ namespace lab4
         {
             var byteData = Encoding.ASCII.GetBytes(data);
 
-            state.clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, state);
+            state.clientSocket!.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, state);
 
             return Task.FromResult(state.sendDone.WaitOne());
         }
 
         private static void SendCallback(IAsyncResult ar)
         {
-            var state = (State)ar.AsyncState;
-            var id = state.clientId;
-            var bytesSent = state.clientSocket.EndSend(ar);
+            var state = (State)ar.AsyncState!;
+            var bytesSent = state.clientSocket!.EndSend(ar);
 
             state.LogSend(bytesSent);
             state.sendDone.Set();
@@ -86,19 +85,19 @@ namespace lab4
 
         private static Task ReceiveWrapper(State state)
         {
-            state.clientSocket.BeginReceive(state.recvBuffer, 0, State.BUFFER_SIZE, 0, ReceiveCallback, state);
+            state.clientSocket!.BeginReceive(state.recvBuffer, 0, State.BUFFER_SIZE, 0, ReceiveCallback, state);
 
             return Task.FromResult(state.receiveDone.WaitOne());
         }
 
         public static void ReceiveCallback(IAsyncResult ar)
         {
-            var state = (State)ar.AsyncState;
+            var state = (State)ar.AsyncState!;
             var client = state.clientSocket;
 
             try
             {
-                var bytesRead = client.EndReceive(ar);
+                var bytesRead = client!.EndReceive(ar);
 
                 state.responseContent.Append(Encoding.ASCII.GetString(state.recvBuffer, 0, bytesRead));
 

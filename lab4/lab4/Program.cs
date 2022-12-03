@@ -10,6 +10,12 @@
 
         public static void Main(string[] args)
         {
+            Console.WriteLine("Menu:");
+            Console.WriteLine("x - exit");
+            Console.WriteLine("1 - run callback solution");
+            Console.WriteLine("2 - run tasks solution");
+            Console.WriteLine("3 - run async/await solution\n");
+
             bool done = false;
 
             while (!done)

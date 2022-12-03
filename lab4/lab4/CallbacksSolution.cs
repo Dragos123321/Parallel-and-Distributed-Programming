@@ -10,13 +10,13 @@ namespace lab4
 {
     internal class CallbacksSolution
     {
-        private static List<string> hosts;
+        private static List<string>? hostnames;
 
         public static void run(List<string> urls)
         {
-            hosts = urls;
+            hostnames = urls;
 
-            for (int i = 0; i < hosts.Count; i++)
+            for (int i = 0; i < hostnames.Count; i++)
             {
                 start(i);
                 Thread.Sleep(1000);
@@ -25,33 +25,33 @@ namespace lab4
 
         public static void start(int id)
         {
-            StartClient(hosts[id], id);
+            StartClient(hostnames![id], id);
         }
 
         public static void StartClient(string host, int id)
         {
             var state = State.getNewState(host, id);
 
-            state.clientSocket.BeginConnect(state.remoteEndpoint, Connect, state);
+            state.clientSocket!.BeginConnect(state.remoteEndpoint!, Connect, state);
         }
 
         public static void Connect(IAsyncResult ar)
         {
-            var state = (State)ar.AsyncState;
+            var state = (State)ar.AsyncState!;
 
-            state.clientSocket.EndConnect(ar);
+            state.clientSocket!.EndConnect(ar);
             state.LogConnect();
 
-            var byteData = Encoding.ASCII.GetBytes(HttpHelper.getRequestString(state.serverHostname, state.endpoint));
+            var byteData = Encoding.ASCII.GetBytes(HttpHelper.getRequestString(state.serverHostname!, state.endpoint!));
 
             state.clientSocket.BeginSend(byteData, 0, byteData.Length, 0, Send, state);
         }
 
         public static void Send(IAsyncResult ar)
         {
-            var state = (State)ar.AsyncState;
+            var state = (State)ar.AsyncState!;
 
-            var bytesSent = state.clientSocket.EndSend(ar);
+            var bytesSent = state.clientSocket!.EndSend(ar);
             state.LogSend(bytesSent);
 
             state.clientSocket.BeginReceive(state.recvBuffer, 0, State.BUFFER_SIZE, 0, Receive, state);
@@ -59,12 +59,12 @@ namespace lab4
 
         public static void Receive(IAsyncResult ar)
         {
-            var state = (State)ar.AsyncState;
+            var state = (State)ar.AsyncState!;
             var client = state.clientSocket;
 
             try
             {
-                var bytesRead = client.EndReceive(ar);
+                var bytesRead = client!.EndReceive(ar);
 
                 state.responseContent.Append(Encoding.ASCII.GetString(state.recvBuffer, 0, bytesRead));
 
