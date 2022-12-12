@@ -11,21 +11,27 @@ namespace lab4
     internal class CallbacksSolution
     {
         private static List<string>? hostnames;
+        private static int task_done;
 
         public static void run(List<string> urls)
         {
             hostnames = urls;
+            CallbacksSolution.task_done = hostnames.Count - 1;
 
             for (int i = 0; i < hostnames.Count; i++)
             {
                 start(i);
-                Thread.Sleep(1000);
             }
+
+            do
+            {
+                Thread.Sleep(100);
+            } while (CallbacksSolution.task_done > 0);
         }
 
-        public static void start(int id)
+        public static void start(int i)
         {
-            StartClient(hostnames![id], id);
+            StartClient(hostnames![i], i);
         }
 
         public static void StartClient(string host, int id)
@@ -87,6 +93,7 @@ namespace lab4
                         state.LogReceive();
                         client.Shutdown(SocketShutdown.Both);
                         client.Close();
+                        CallbacksSolution.task_done -= 1;
                     }
                 }
             } 

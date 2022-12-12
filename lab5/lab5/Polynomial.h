@@ -10,6 +10,7 @@ public:
     Polynomial();
     Polynomial(const std::vector<int>& coefficients, std::function<Polynomial(const Polynomial& lhs, const Polynomial& rhs)> multiply);
     Polynomial(std::vector<int>&& coefficients, std::function<Polynomial(const Polynomial& lhs, const Polynomial& rhs)> multiply);
+    Polynomial(size_t degree, std::function<Polynomial(const Polynomial& lhs, const Polynomial& rhs)> multiply);
 
     Polynomial subPolynomial(size_t start, size_t end) const;
     size_t degree() const;
@@ -27,11 +28,14 @@ public:
     friend Polynomial karatsuba_sequential(const Polynomial& lhs, const Polynomial& rhs);
     friend Polynomial simple_parallel(const Polynomial& lhs, const Polynomial& rhs);
     friend Polynomial karatsuba_parallel(const Polynomial& lhs, const Polynomial& rhs);
+    friend Polynomial karatsuba_parallel_util(const Polynomial& lhs, const Polynomial& rhs, int depth);
 
     void coefficient(size_t index, int value);
 
     const int& operator[](size_t index) const;
 private:
+    void generate_random_coefficients();
+
     size_t m_degree;
     std::vector<int> m_coefficients;
     std::function<Polynomial(const Polynomial& lhs, const Polynomial& rhs)> m_multiply;

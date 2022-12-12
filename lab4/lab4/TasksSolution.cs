@@ -38,9 +38,7 @@ namespace lab4
             var state = State.getNewState(host, id);
 
             ConnectWrapper(state).Wait();
-
             SendWrapper(state, HttpHelper.getRequestString(state.serverHostname!, state.endpoint!)).Wait();
-
             ReceiveWrapper(state).Wait();
 
             state.LogReceive();
@@ -51,36 +49,34 @@ namespace lab4
 
         private static Task ConnectWrapper(State state)
         {
-            state.clientSocket!.BeginConnect(state.remoteEndpoint!, ConnectCallback, state);
+            var taskCompletion = new TaskCompletionSource<bool>();
 
-            return Task.FromResult(state.connectDone.WaitOne());
+            state.clientSocket!.BeginConnect(state.remoteEndpoint!, (IAsyncResult ar) =>
+            {
+                state.clientSocket!.EndConnect(ar);
+                state.LogConnect();
+                taskCompletion.TrySetResult(true);
+
+            }, state);
+
+            return taskCompletion.Task;
         }
 
-        private static void ConnectCallback(IAsyncResult ar)
+        private static Task<int> SendWrapper(State state, string data)
         {
-            var state = (State)ar.AsyncState!;
+            var taskCompletion = new TaskCompletionSource<int>();
 
-            state.clientSocket!.EndConnect(ar);
-            state.LogConnect();
-            state.connectDone.Set();
-        }
-
-        private static Task SendWrapper(State state, string data)
-        {
             var byteData = Encoding.ASCII.GetBytes(data);
 
-            state.clientSocket!.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, state);
+            state.clientSocket!.BeginSend(byteData, 0, byteData.Length, 0, (IAsyncResult ar) =>
+            {
+                var bytesSent = state.clientSocket!.EndSend(ar);
+                state.LogSend(bytesSent);
+                taskCompletion.TrySetResult(bytesSent);
 
-            return Task.FromResult(state.sendDone.WaitOne());
-        }
+            }, state);
 
-        private static void SendCallback(IAsyncResult ar)
-        {
-            var state = (State)ar.AsyncState!;
-            var bytesSent = state.clientSocket!.EndSend(ar);
-
-            state.LogSend(bytesSent);
-            state.sendDone.Set();
+            return taskCompletion.Task;
         }
 
         private static Task ReceiveWrapper(State state)

@@ -1,0 +1,8 @@
+﻿  main.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
+D:\Dragos\Work\Faculty\Programare paralela\lab6\lab6\main.cpp(58,47): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\lab6\lab6\main.cpp(77,19): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  lab6.vcxproj -> D:\Dragos\Work\Faculty\Programare paralela\lab6\x64\Debug\lab6.exe

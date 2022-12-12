@@ -21,7 +21,11 @@ int main() {
             Polynomial pol1{ std::vector<int>{3, 0, 5, 1},  simple_sequential };
             Polynomial pol2{ std::vector<int>{1, 2, 6, 0, 3},  simple_sequential };
 
-            std::cout << pol1 * pol2 << '\n';
+            std::cout << pol1 * pol2 << "\n\n";
+
+            Polynomial pol3{ 10000,  simple_sequential };
+            Polynomial pol4{ 10000,  simple_sequential };
+            auto res = pol3 * pol4;
             }
             break;
 
@@ -30,7 +34,11 @@ int main() {
             Polynomial pol1{ std::vector<int>{3, 0, 5, 1},  karatsuba_sequential };
             Polynomial pol2{ std::vector<int>{1, 2, 6, 0, 3},  karatsuba_sequential };
 
-            std::cout << pol1 * pol2 << '\n';
+            std::cout << pol1 * pol2 << "\n\n";
+
+            Polynomial pol3{ 10000,  karatsuba_sequential };
+            Polynomial pol4{ 10000,  karatsuba_sequential };
+            auto res = pol3 * pol4;
             }
             break;
 
@@ -39,7 +47,11 @@ int main() {
             Polynomial pol1{ std::vector<int>{3, 0, 5, 1},  simple_parallel };
             Polynomial pol2{ std::vector<int>{1, 2, 6, 0, 3},  simple_parallel };
 
-            std::cout << pol1 * pol2 << '\n';
+            std::cout << pol1 * pol2 << "\n\n";
+
+            Polynomial pol3{ 10000,  simple_parallel };
+            Polynomial pol4{ 10000,  simple_parallel };
+            auto res = pol3 * pol4;
             }
             break;
 
@@ -48,7 +60,11 @@ int main() {
             Polynomial pol1{ std::vector<int>{3, 0, 5, 1},  karatsuba_parallel };
             Polynomial pol2{ std::vector<int>{1, 2, 6, 0, 3},  karatsuba_parallel };
 
-            std::cout << pol1 * pol2 << '\n';
+            std::cout << pol1 * pol2 << "\n\n";
+
+            Polynomial pol3{ 10000,  karatsuba_parallel };
+            Polynomial pol4{ 10000,  karatsuba_parallel };
+            auto res = pol3 * pol4;
             }
             break;
 

@@ -3,6 +3,8 @@
 #include "Multiplications.h"
 
 #include <algorithm>
+#include <chrono>
+#include <random>
 
 Polynomial::Polynomial() :
     m_degree{ 0 }
@@ -22,6 +24,13 @@ Polynomial::Polynomial(std::vector<int>&& coefficients, std::function<Polynomial
     m_multiply{ multiply }
 {
     m_degree = m_coefficients.size() - 1;
+}
+
+Polynomial::Polynomial(size_t degree, std::function<Polynomial(const Polynomial& lhs, const Polynomial& rhs)> multiply) :
+    m_multiply{ multiply },
+    m_degree{ degree }
+{
+    generate_random_coefficients();
 }
 
 Polynomial Polynomial::subPolynomial(size_t start, size_t end) const
@@ -91,7 +100,17 @@ Polynomial operator-(const Polynomial& lhs, const Polynomial& rhs)
 
 Polynomial operator*(const Polynomial& lhs, const Polynomial& rhs)
 {
-    return lhs.m_multiply(lhs, rhs);
+    auto start = std::chrono::high_resolution_clock::now();
+
+    Polynomial res = lhs.m_multiply(lhs, rhs);
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto time_per_cols = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+    std::cout << time_per_cols << " millis\n";
+
+    return res;
 }
 
 std::ostream& operator<<(std::ostream& stream, const Polynomial& polynomial)
@@ -131,4 +150,15 @@ void Polynomial::coefficient(size_t index, int value)
 const int& Polynomial::operator[](size_t index) const
 {
     return m_coefficients[index];
+}
+
+void Polynomial::generate_random_coefficients()
+{
+    std::random_device rd; 
+    std::mt19937 gen(rd()); 
+    std::uniform_int_distribution<> distr(0, 10);
+
+    for (size_t i = 0; i <= m_degree; ++i) {
+        m_coefficients.push_back(distr(gen));
+    }
 }

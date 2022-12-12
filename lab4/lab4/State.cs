@@ -10,7 +10,7 @@ namespace lab4
 {
     public class State
     {
-        public const int BUFFER_SIZE = 512;
+        public const int BUFFER_SIZE = 1024;
         public Socket? clientSocket = null;
         public byte[] recvBuffer = new byte[BUFFER_SIZE];
         public StringBuilder responseContent = new StringBuilder();

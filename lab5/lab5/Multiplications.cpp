@@ -7,6 +7,8 @@
 #include <boost/asio/thread_pool.hpp>
 #include <boost/asio/post.hpp>
 
+const int MAX_DEPTH = 4;
+
 Polynomial simple_sequential(const Polynomial& lhs, const Polynomial& rhs)
 {
     Polynomial result;
@@ -73,8 +75,16 @@ Polynomial simple_parallel(const Polynomial& lhs, const Polynomial& rhs)
     return result;
 }
 
-Polynomial karatsuba_parallel(const Polynomial& lhs, const Polynomial& rhs)
+Polynomial karatsuba_parallel(const Polynomial& lhs, const Polynomial& rhs) {
+    return karatsuba_parallel_util(lhs, rhs, 0);
+}
+
+Polynomial karatsuba_parallel_util(const Polynomial& lhs, const Polynomial& rhs, int depth)
 {
+    if (depth >= MAX_DEPTH) {
+        return karatsuba_sequential(lhs, rhs);
+    }
+
     if (lhs.m_degree < 2 || rhs.m_degree < 2) {
         return simple_sequential(lhs, rhs);
     }
@@ -94,17 +104,17 @@ Polynomial karatsuba_parallel(const Polynomial& lhs, const Polynomial& rhs)
     auto future2 = promise2.get_future();
     auto future3 = promise3.get_future();
 
-    std::thread thread1([&lhsLow, &rhsLow](std::promise<Polynomial>&& promise) {
-        promise.set_value(karatsuba_parallel(lhsLow, rhsLow));
-    }, std::move(promise1));
+    std::thread thread1([&lhsLow, &rhsLow](std::promise<Polynomial>&& promise, int depth) {
+        promise.set_value(karatsuba_parallel_util(lhsLow, rhsLow, depth + 1));
+    }, std::move(promise1), depth);
 
-    std::thread thread2([&lhsLow, &lhsHigh, &rhsLow, &rhsHigh](std::promise<Polynomial>&& promise) {
-        promise.set_value(karatsuba_parallel(lhsLow + lhsHigh, rhsLow + rhsHigh));
-    }, std::move(promise2));
+    std::thread thread2([&lhsLow, &lhsHigh, &rhsLow, &rhsHigh](std::promise<Polynomial>&& promise, int depth) {
+        promise.set_value(karatsuba_parallel_util(lhsLow + lhsHigh, rhsLow + rhsHigh, depth + 1));
+    }, std::move(promise2), depth);
 
-    std::thread thread3([&lhsHigh, &rhsHigh](std::promise<Polynomial>&& promise) {
-        promise.set_value(karatsuba_parallel(lhsHigh, rhsHigh));
-    }, std::move(promise3));
+    std::thread thread3([&lhsHigh, &rhsHigh](std::promise<Polynomial>&& promise, int depth) {
+        promise.set_value(karatsuba_parallel_util(lhsHigh, rhsHigh, depth + 1));
+    }, std::move(promise3), depth);
 
     thread1.join();
     thread2.join();
