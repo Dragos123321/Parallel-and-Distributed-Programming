@@ -1,0 +1,14 @@
+﻿  Multiplications.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
+D:\Dragos\Work\Faculty\Programare paralela\lab7\lab7\Multiplications.cpp(49,31): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\lab7\lab7\Multiplications.cpp(50,41): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\lab7\lab7\Multiplications.cpp(127,31): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\lab7\lab7\Multiplications.cpp(128,41): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\lab7\lab7\Multiplications.cpp(168,49): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\lab7\lab7\Multiplications.cpp(245,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\lab7\lab7\Multiplications.cpp(322,31): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\lab7\lab7\Multiplications.cpp(323,41): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  lab7.vcxproj -> D:\Dragos\Work\Faculty\Programare paralela\lab7\x64\Debug\lab7.exe
