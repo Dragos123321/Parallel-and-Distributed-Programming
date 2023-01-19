@@ -4,42 +4,7 @@
 #include <mpi.h>
 #include <iostream>
 #include <thread>
-
-void threads_main() {
-    colors.push_back("red");
-    colors.push_back("green");
-    colors.push_back("blue");
-
-    Graph graph(10);
-
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 3);
-    graph.addEdge(3, 4);
-    graph.addEdge(4, 0);
-    graph.addEdge(2, 0);
-    graph.addEdge(0, 4);
-    graph.addEdge(4, 3);
-    graph.addEdge(3, 1);
-    graph.addEdge(1, 4);
-    graph.addEdge(5, 7);
-    graph.addEdge(5, 3);
-    graph.addEdge(8, 9);
-    graph.addEdge(0, 6);
-    graph.addEdge(7, 9);
-    graph.addEdge(2, 9);
-
-    try {
-        auto res = graph_coloring_threads(std::thread::hardware_concurrency(), graph);
-
-        for (auto el : res) {
-            std::cout << el.first << ": " << el.second << "\n";
-        }
-    }
-    catch (const std::runtime_error& err) {
-        std::cout << err.what() << '\n';
-    }
-}
+#include <chrono>
 
 int main() {
     MPI_Init(0, 0);
@@ -61,8 +26,6 @@ int main() {
     graph.addEdge(3, 4);
     graph.addEdge(4, 0);
     graph.addEdge(2, 0);
-    graph.addEdge(0, 4);
-    graph.addEdge(4, 3);
     graph.addEdge(3, 1);
     graph.addEdge(1, 4);
     graph.addEdge(5, 7);
@@ -74,7 +37,15 @@ int main() {
 
     if (id == 0) {
         try {
+            auto start = std::chrono::high_resolution_clock::now();
+
             auto res = graph_coloring_master(size, graph);
+
+            auto end = std::chrono::high_resolution_clock::now();
+
+            std::chrono::duration<double, std::milli> duration = end - start;
+
+            std::cout << "The algorithm took: " << duration.count() << "ms\n";
 
             for (auto el : res) {
                 std::cout << el.first << ": " << el.second << '\n';

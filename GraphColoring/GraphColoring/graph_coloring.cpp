@@ -13,27 +13,25 @@ extern std::vector<std::string> colors = std::vector<std::string>();
 
 std::mutex mx;
 
-int is_color_valid(int node, std::vector<int>& codes, Graph& graph) {
+int is_color_valid(int node, const std::vector<int>& codes, Graph& graph) {
     for (auto n_node : graph.neighbours(node)) {
-        if (n_node < node && codes[n_node] == codes[node]) {
-            return false;
+        if (n_node < node && codes[n_node] == codes[node] && codes[node] != -1 && codes[n_node] != -1) {
+            return 0;
         }
     }
 
-    return true;
+    return 1;
 }
 
 int are_colors_valid(const std::vector<int>& codes, Graph& graph)
 {
     for (auto node : graph.nodes()) {
-        for (auto n_node : graph.neighbours(node)) {
-            if (n_node < node && codes[n_node] == codes[node] && codes[node] != -1 && codes[n_node] != -1) {
-                return false;
-            }
+        if (!is_color_valid(node, codes, graph)) {
+            return 0;
         }
     }
 
-    return true;
+    return 1;
 }
 
 std::map<int, std::string> get_nodes_to_colors(const std::vector<int>& codes)
@@ -90,7 +88,7 @@ void graph_coloring_util_threads(int nr_threads, int node, std::vector<int> code
             if (nr_threads - 1 > 0) {
                 auto next_codes = codes;
 
-                threads.emplace_back([nr_threads, next_node, next_codes, &res_codes, &graph] {graph_coloring_util_threads(nr_threads - 1, next_node, next_codes, res_codes, graph); });
+                threads.emplace_back([nr_threads, next_node, next_codes, &res_codes, &graph] { graph_coloring_util_threads(nr_threads - 1, next_node, next_codes, res_codes, graph); });
             }
             else {
                 valid_codes.push_back(code);
@@ -241,17 +239,17 @@ int gen_next_util(std::vector<int>& codes, int start, int end, int limit) {
             for (int j = i + 1; j < limit; ++j) {
                 codes[j] = j >= end ? -1 : 0;
             }
-            return true;
+            return 1;
         }
     }
 
-    return false;
+    return 0;
 }
 
 int generate_next(std::vector<int>& codes, int start, int end, int limit, Graph& graph)
 {
     if (start == end) {
-        return true;
+        return 1;
     }
 
     if (codes[start] == -1) {
@@ -259,27 +257,27 @@ int generate_next(std::vector<int>& codes, int start, int end, int limit, Graph&
             codes[i] = 0;
         }
         if (are_colors_valid(codes, graph)) {
-            return true;
+            return 1;
         }
     }
 
     int found = gen_next_util(codes, start, end, limit);
     if (!found) {
-        return false;
+        return 0;
     }
 
     if (found && are_colors_valid(codes, graph)) {
-        return true;
+        return 1;
     }
     while (!are_colors_valid(codes, graph)) {
         found = gen_next_util(codes, start, end, limit);
 
         if (!found) {
-            return false;
+            return 0;
         }
 
         if (are_colors_valid(codes, graph)) {
-            return true;
+            return 1;
         }
     }
 }
