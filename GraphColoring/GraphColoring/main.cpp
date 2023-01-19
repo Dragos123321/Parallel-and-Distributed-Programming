@@ -17,10 +17,12 @@ int main() {
     colors.push_back("red");
     colors.push_back("green");
     colors.push_back("blue");
+    colors.push_back("yellow");
+    colors.push_back("orange");
 
-    Graph graph(10);
+    Graph graph(100);
 
-    graph.addEdge(0, 1);
+   /* graph.addEdge(0, 1);
     graph.addEdge(1, 2);
     graph.addEdge(2, 3);
     graph.addEdge(3, 4);
@@ -33,7 +35,7 @@ int main() {
     graph.addEdge(8, 9);
     graph.addEdge(0, 6);
     graph.addEdge(7, 9);
-    graph.addEdge(2, 9);
+    graph.addEdge(2, 9);*/
 
     if (id == 0) {
         try {

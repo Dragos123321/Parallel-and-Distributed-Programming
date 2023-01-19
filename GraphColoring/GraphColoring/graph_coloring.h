@@ -63,7 +63,7 @@ std::map<int, std::string> graph_coloring_threads(int nr_threads, Graph& graph);
  *  @return A map representing the relation between a color's code and the color created using \a get_nodes_to_colors.
  *
 **/
-void graph_coloring_util_threads(int nr_threads, int node, std::vector<int> codes, std::vector<int>& res_codes, Graph& graph);
+void graph_coloring_util_threads(std::atomic_int& nr_threads, int node, std::vector<int> codes, std::vector<int>& res_codes, Graph& graph);
 
 /** @brief Tries to find a valid coloring for a graph.
  *  Generates possible valid colorings for the first section of nodes in the graph and for the last one if it exists and is not covered by the last worker.

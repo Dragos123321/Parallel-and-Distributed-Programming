@@ -47,10 +47,12 @@ std::map<int, std::string> get_nodes_to_colors(const std::vector<int>& codes)
 
 std::map<int, std::string> graph_coloring_threads(int nr_threads, Graph& graph)
 {
-    std::vector<int> codes = std::vector<int>(graph.nodes().size());
+    std::vector<int> codes = std::vector<int>(graph.nodes().size(), 0);
     std::vector<int> res_codes;
 
-    graph_coloring_util_threads(nr_threads, 0, codes, res_codes, graph);
+    std::atomic_int nr_threads_atomic = nr_threads;
+
+    graph_coloring_util_threads(nr_threads_atomic, 0, codes, res_codes, graph);
 
     if (res_codes.empty())
         throw std::runtime_error("No solution found!");
@@ -58,7 +60,7 @@ std::map<int, std::string> graph_coloring_threads(int nr_threads, Graph& graph)
     return get_nodes_to_colors(res_codes);
 }
 
-void graph_coloring_util_threads(int nr_threads, int node, std::vector<int> codes, std::vector<int>& res_codes, Graph& graph)
+void graph_coloring_util_threads(std::atomic_int& nr_threads, int node, std::vector<int> codes, std::vector<int>& res_codes, Graph& graph)
 {
     if (!res_codes.empty())
         return;
@@ -85,10 +87,10 @@ void graph_coloring_util_threads(int nr_threads, int node, std::vector<int> code
 
         if (is_color_valid(next_node, codes, graph)) {
 
-            if (nr_threads - 1 > 0) {
+            if (nr_threads.fetch_sub(1) > 0) {
                 auto next_codes = codes;
 
-                threads.emplace_back([nr_threads, next_node, next_codes, &res_codes, &graph] { graph_coloring_util_threads(nr_threads - 1, next_node, next_codes, res_codes, graph); });
+                threads.emplace_back([&nr_threads, next_node, next_codes, &res_codes, &graph] { graph_coloring_util_threads(nr_threads, next_node, next_codes, res_codes, graph); });
             }
             else {
                 valid_codes.push_back(code);
@@ -104,7 +106,7 @@ void graph_coloring_util_threads(int nr_threads, int node, std::vector<int> code
         codes[next_node] = code;
         auto next_codes = codes;
 
-        graph_coloring_util_threads(nr_threads - 1, next_node, next_codes, res_codes, graph);;
+        graph_coloring_util_threads(nr_threads, next_node, next_codes, res_codes, graph);;
     }
 }
 
