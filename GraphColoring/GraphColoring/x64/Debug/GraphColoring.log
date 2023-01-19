@@ -1,0 +1,22 @@
+﻿  graph_coloring.cpp
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(44,14): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(128,93): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(129,133): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(132,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(135,93): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(136,133): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(142,76): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(150,94): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(169,99): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(173,85): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(179,91): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(183,85): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(187,85): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(191,103): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(195,89): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(217,99): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(223,91): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(227,85): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(232,85): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\GraphColoring\graph_coloring.cpp(285): warning C4715: 'generate_next': not all control paths return a value
+  GraphColoring.vcxproj -> D:\Dragos\Work\Faculty\Programare paralela\GraphColoring\x64\Debug\GraphColoring.exe

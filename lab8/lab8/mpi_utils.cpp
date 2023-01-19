@@ -1,5 +1,7 @@
 #include "mpi_utils.h"
 
+#include "globals.h"
+
 #include <mpi.h>
 #include <sstream>
 #include <iostream>
@@ -17,11 +19,11 @@ void send_update_message(const std::string& var, int new_value, int id)
     std::vector<int> arr = { 0, nr_var, new_value };
 
     std::stringstream ss;
-    ss << "Sending " << arr[0] << " " << arr[1] << " " << arr[2] << " to " << id;
+    ss << g_id << ": Sending " << arr[0] << " " << var << " " << arr[2] << " to " << id;
 
     std::cout << ss.str() << '\n';
 
-    MPI_Bsend(arr.data(), 3, MPI_INT, id, 0, MPI_COMM_WORLD);
+    MPI_Bsend(arr.data(), 3, MPI_INT, id, 1, MPI_COMM_WORLD);
 }
 
 void send_subscribe_message(const std::string& var, int new_id, int id)
@@ -37,11 +39,11 @@ void send_subscribe_message(const std::string& var, int new_id, int id)
     std::vector<int> arr = { 1, nr_var, new_id };
 
     std::stringstream ss;
-    ss << "Sending " << arr[0] << " " << arr[1] << " " << arr[2] << " to " << id;
+    ss << g_id << ": Sending " << arr[0] << " " << var << " " << arr[2] << " to " << id;
 
     std::cout << ss.str() << '\n';
 
-    MPI_Bsend(arr.data(), 3, MPI_INT, id, 0, MPI_COMM_WORLD);
+    MPI_Bsend(arr.data(), 3, MPI_INT, id, 2, MPI_COMM_WORLD);
 }
 
 void send_close_message(int id)
@@ -50,19 +52,17 @@ void send_close_message(int id)
 
     std::stringstream ss;
 
-    ss << "Sending " << arr[0] << " " << arr[1] << " " << arr[2] << " to " << id;
+    ss << g_id << ": Sending " << arr[0] << " " << arr[1] << " " << arr[2] << " to " << id;
     std::cout << ss.str() << '\n';
 
-    MPI_Bsend(arr.data(), 3, MPI_INT, id, 0, MPI_COMM_WORLD);
+    MPI_Bsend(arr.data(), 3, MPI_INT, id, 3, MPI_COMM_WORLD);
 }
 
 std::vector<int> get_message()
 {
     std::vector<int> arr(3, 0);
 
-    MPI_Recv(arr.data(), 3, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-    std::cout << "Recv: " << arr[0] << " " << arr[1] << " " << arr[2] << '\n';
+    MPI_Recv(arr.data(), 3, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
     return arr;
 }

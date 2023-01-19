@@ -1,2 +1,3 @@
-﻿  mpi_utils.cpp
+﻿  main.cpp
+D:\Dragos\Work\Faculty\Programare paralela\lab8\lab8\main.cpp(58,55): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   lab8.vcxproj -> D:\Dragos\Work\Faculty\Programare paralela\lab8\x64\Debug\lab8.exe

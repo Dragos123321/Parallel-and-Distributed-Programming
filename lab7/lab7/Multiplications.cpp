@@ -306,10 +306,6 @@ Polynomial karatsuba_mpi(const Polynomial& poly1, const Polynomial& poly2, int m
     else 
         z3 = karatsuba_sequential(lhsHigh, rhsHigh);
 
-    z1 = karatsuba_sequential(lhsLow, rhsLow);
-    z2 = karatsuba_sequential(lhsLow + lhsHigh, rhsLow + rhsHigh);
-    z3 = karatsuba_sequential(lhsHigh, rhsHigh);
-
     if (me * 3 + 1 < nrProcs)
         z1 = recv_karatsuba(me * 3 + 1);
 

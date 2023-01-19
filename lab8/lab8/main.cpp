@@ -14,7 +14,6 @@ std::vector<int> attached(100000, 0);
 
 void listener() {
     while (true) {
-        std::cout << "Waiting...\n";
         auto message = get_message();
 
         std::string var;
@@ -29,20 +28,22 @@ void listener() {
             var = "c";
         }
 
+        std::cout << "Id: " << g_id << " a: " << dsm.variable("a").get_value() << " b: " << dsm.variable("b").get_value() << " c: " << dsm.variable("c").get_value() << '\n';
+
         if (message[0] == 0) {
-            std::cout << "Updating " << var << " with " << message[2] << '\n';
+            std::cout << g_id << ": Updating " << var << " with " << message[2] << '\n';
             mx.lock();
             dsm.set_variable(var, message[2]);
             mx.unlock();
         }
         else if (message[0] == 1) {
-            std::cout << "Subscribing " << var << " with " << message[2] << '\n';
+            std::cout << g_id << ": Subscribing " << var << " from " << message[2] << '\n';
             mx.lock();
             dsm.update_subscription(var, message[2]);
             mx.unlock();
         }
         else if (message[0] == 2) {
-            std::cout << "Quitting...\n";
+            std::cout << g_id << ": Quitting...\n";
             break;
         }
     }
@@ -106,6 +107,10 @@ int main() {
         mx.lock();
         dsm.update_variable("a", 6);
         mx.unlock();
+
+        mx.lock();
+        dsm.check_and_replace("b", 0, 3);
+        mx.unlock();
     }
     else if (g_id == 2) {
         mx.lock();
@@ -120,10 +125,6 @@ int main() {
     }
 
     th.join();
-
-    std::cout << "a: " << dsm.variable("a").get_value() << '\n';
-    std::cout << "b: " << dsm.variable("b").get_value() << '\n';
-    std::cout << "c: " << dsm.variable("c").get_value() << '\n';
 
     MPI_Finalize();
 }
